@@ -2,14 +2,31 @@ import React from 'react';
 
 import { AxiosProvider, Request, Get, Delete, Head, Post, Put, Patch, withAxios } from 'react-axios'
 
+import  Edit_course from './components/edit_course'
+import  Create_course from './components/create_course.js'
+import  Faq from './components/faq.js'
+import  Faqsingle from './components/Edit_Faq.js'
+import  Create_faq from './components/create_Faq.js'
+import  Registration from './components/registration.js'
+import  Login from './components/login.js'
+import  Chatbot from './components/chatbot'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import axios from 'axios';
+import {Redirect} from 'react-router-dom';
+import ProtectedRoute from './helpers/protected_Route';
+import AllCourses from './components/allCourses.js';
 
 
 
+import {auth} from './helpers/firebase.js'
 
 
 
-
-
+import {createUserWithEmailAndPassword,onAuthStateChanged, sendEmailVerification,signOut} from 'firebase/auth'
+import {useAuthValue} from './helpers/AuthContext'
+import {AuthProvider} from './helpers/AuthContext'
+import { collection,addDoc,doc,setDoc,getDoc } from "firebase/firestore"
+import {db} from './helpers/firebase.js'
 
 class App extends React.Component {
 
@@ -26,6 +43,42 @@ class App extends React.Component {
  }
 
 
+updateUser=(user)=>{
+console.log(this.state.Adminrole);
+console.log("test456");
+  if (user) {
+console.log("true user");
+        this.setState({currentUser:user});
+        this.setState({loggedin:true});
+
+
+
+  }else {
+    console.log("false user");
+    this.setState({currentUser:user});
+    this.setState({loggedin:false});
+  }
+
+
+}
+updateUserrole=(isAdmin)=>{
+
+    this.setState({Adminrole:isAdmin});
+
+
+
+}
+
+handlelogout=(event)=>{
+  signOut(auth).then(() => {
+    this.setState({password:""});
+  console.log("hhh");
+}).catch((error) => {
+console.log(error);
+});
+
+
+};
 
   render() {
 
